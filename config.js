@@ -41,4 +41,4 @@ export const FIREBASE_CONFIG = {
 };
 
 // 4. Set to false once you've filled in FIREBASE_CONFIG above.
-export const IS_PLACEHOLDER = FIREBASE_CONFIG.apiKey === "REPLACE_ME";
+export const IS_PLACEHOLDER = FIREBASE_CONFIG.apiKey === false;
