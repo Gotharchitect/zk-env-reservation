@@ -1,4 +1,4 @@
-import { USERS, ENVIRONMENTS, FIREBASE_CONFIG, SLACK_WEBHOOK_URL, IS_PLACEHOLDER, SLOT_DURATION_MINUTES } from "./config.js";
+import { USERS, ENVIRONMENTS, FIREBASE_CONFIG, IS_PLACEHOLDER, SLOT_DURATION_MINUTES } from "./config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
   getFirestore, doc, setDoc, onSnapshot, runTransaction
@@ -72,28 +72,6 @@ function toast(msg) {
   toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
 }
 
-// ── Slack notification ────────────────────────────────────────────
-// Sent with mode:no-cors as a fire-and-forget call — the browser can't
-// read the response, so we can't confirm delivery, but Slack's webhook
-// endpoint accepts this pattern fine. If you need delivery confirmation
-// later, move this call behind a tiny serverless function instead.
-async function notifySlack(text) {
-  if (IS_PLACEHOLDER) {
-    console.log("[Slack webhook not configured] would have sent:", text);
-    return;
-  }
-  try {
-    await fetch(SLACK_WEBHOOK_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain" },
-      body: JSON.stringify({ text }),
-    });
-  } catch (e) {
-    console.error("Slack notification failed", e);
-  }
-}
-
 // ── Firestore document shape per environment ──────────────────────
 // { current: { name, since } | null, queue: [{ name, since }] }
 function envRef(envName) {
@@ -159,8 +137,7 @@ async function release(envName) {
   });
 
   if (nextUser) {
-    toast(`Released ${envName} — notifying ${nextUser}`);
-    notifySlack(`:white_check_mark: *${envName}* is now free and assigned to *${nextUser}* (handed off by ${name}).`);
+    toast(`Released ${envName} — ${nextUser} is up next`);
   } else if (nextUser === null) {
     toast(`Released ${envName}`);
   }

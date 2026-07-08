@@ -1,16 +1,16 @@
 # Environment reservation board
 
 A tiny static site for 6 people to share tstqa / tstqadev / tstqadev02 —
-see who has each one, reserve it, join a queue if it's busy, and get
-the next person pinged in Slack automatically when it's released.
+see who has each one in real time, reserve it, and join a queue if
+it's busy.
 
 No server to run or maintain. Just a static site + a free Firebase
-project (for shared state) + a Slack webhook (for notifications).
+project (for shared state).
 
 ## Files
 
 - `index.html` — the page
-- `app.js` — all the logic (Firestore sync + Slack call)
+- `app.js` — all the logic (Firestore sync)
 - `config.js` — **the only file you need to edit**
 
 ## 1. Set up Firebase (5 minutes, free tier is plenty for this)
@@ -43,27 +43,12 @@ project (for shared state) + a Slack webhook (for notifications).
    bigger change to `app.js` (adding a login screen) — happy to add it
    if you want it.
 
-## 2. Set up the Slack webhook (2 minutes)
-
-1. Go to https://api.slack.com/apps > **Create New App** > From scratch.
-2. Under **Incoming Webhooks**, toggle it on, then **Add New Webhook to
-   Workspace**, and pick the channel you want pings in.
-3. Copy the webhook URL into `config.js` under `SLACK_WEBHOOK_URL`.
-
-Note: the webhook call is made directly from the browser using
-`mode: "no-cors"`, since there's no server to route it through. This
-means the app can't confirm Slack actually received it — it just fires
-and hopes. In practice this pattern is reliable, but if you ever want
-delivery confirmation or retries, that's the point where you'd add a
-one-function serverless backend (Cloudflare Worker / Netlify Function)
-just for the Slack call.
-
-## 3. Edit the user list
+## 2. Edit the user list
 
 In `config.js`, update `USERS` with your 6 names and `ENVIRONMENTS` if
 the environment names ever change.
 
-## 4. Deploy
+## 3. Deploy
 
 This is a plain static site — drop the folder onto whatever static
 host you've got:
@@ -84,10 +69,9 @@ No build step — it's just static HTML/JS.
 - **Reserve**: if the environment is free, you get it immediately. If
   not, you're appended to the queue.
 - **Release**: only shown to whoever currently holds it. Releasing
-  promotes the next person in the queue (if any) and fires a Slack
-  message tagging them.
+  promotes the next person in the queue (if any) automatically.
 - **Leave queue**: for when you queued but no longer need it.
-- The "I am" dropdown is just a per-browser identity (stored in
+- The "I am" field is just a per-browser identity (stored in
   `localStorage`) — there's no login. Good enough for 6 trusted
   people on an internal URL; not meant to stop someone from picking a
   different name if they wanted to.
@@ -97,7 +81,7 @@ No build step — it's just static HTML/JS.
 - No real authentication — anyone with the URL can act as anyone.
   Fine for an internal tool behind your VPN/network; not something to
   put on the open internet as-is.
-- Slack delivery isn't confirmed (see note above).
 - No automatic timeout — if someone forgets to hit Release, the
-  environment stays theirs until they do. Could add a "max hold time"
-  with a scheduled check later if that becomes a problem in practice.
+  environment stays theirs until they do. The "time remaining" display
+  is just a visual nudge (based on `SLOT_DURATION_MINUTES` in
+  `config.js`) — it turns red past the limit but doesn't force anything.

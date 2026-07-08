@@ -31,20 +31,13 @@ export const SLOT_DURATION_MINUTES = 120;
 //       then lock down rules per the README)
 //    -> Project settings > General > Your apps > Web app > copy the config object below
 export const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBqgMQ9DKbXfzvMchogpn-bWHTErY3iavk",
-  authDomain: "zk-env-reservation.firebaseapp.com",
-  projectId: "zk-env-reservation",
-  storageBucket: "zk-env-reservation.firebasestorage.app",
-  messagingSenderId: "1055608568984",
-  appId: "1:1055608568984:web:8287e58f34a8652c3ba4ed"
+  apiKey: "REPLACE_ME",
+  authDomain: "REPLACE_ME.firebaseapp.com",
+  projectId: "REPLACE_ME",
+  storageBucket: "REPLACE_ME.appspot.com",
+  messagingSenderId: "REPLACE_ME",
+  appId: "REPLACE_ME",
 };
 
-// 4. Slack Incoming Webhook URL.
-//    Create one at https://api.slack.com/apps -> your app -> Incoming Webhooks
-//    -> Add New Webhook to Workspace -> pick the channel -> copy the URL
-export const SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/REPLACE/ME/PLACEHOLDER";
-
-// Set to false once you've filled in the values above.
-export const IS_PLACEHOLDER =
-  FIREBASE_CONFIG.apiKey === "REPLACE_ME" ||
-  SLACK_WEBHOOK_URL.includes("REPLACE");
+// 4. Set to false once you've filled in FIREBASE_CONFIG above.
+export const IS_PLACEHOLDER = FIREBASE_CONFIG.apiKey === "REPLACE_ME";
