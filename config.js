@@ -31,12 +31,12 @@ export const SLOT_DURATION_MINUTES = 120;
 //       then lock down rules per the README)
 //    -> Project settings > General > Your apps > Web app > copy the config object below
 export const FIREBASE_CONFIG = {
-  apiKey: "REPLACE_ME",
-  authDomain: "REPLACE_ME.firebaseapp.com",
-  projectId: "REPLACE_ME",
-  storageBucket: "REPLACE_ME.appspot.com",
-  messagingSenderId: "REPLACE_ME",
-  appId: "REPLACE_ME",
+  apiKey: "AIzaSyBqgMQ9DKbXfzvMchogpn-bWHTErY3iavk",
+  authDomain: "zk-env-reservation.firebaseapp.com",
+  projectId: "zk-env-reservation",
+  storageBucket: "zk-env-reservation.firebasestorage.app",
+  messagingSenderId: "1055608568984",
+  appId: "1:1055608568984:web:8287e58f34a8652c3ba4ed"
 };
 
 // 4. Slack Incoming Webhook URL.
