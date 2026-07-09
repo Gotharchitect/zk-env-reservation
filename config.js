@@ -23,7 +23,7 @@ export const ENVIRONMENTS = ["tstqa", "tstqadev", "tstqadev02"];
 //     remaining" display. This is DISPLAY ONLY — nothing gets
 //     auto-released when it hits zero, it just turns red and shows
 //     "overdue" as a nudge. Change this if 2 hours isn't realistic.
-export const SLOT_DURATION_MINUTES = 120;
+export const SLOT_DURATION_MINUTES = 60;
 
 // 3. Firebase project config.
 //    Create a free project at https://console.firebase.google.com
