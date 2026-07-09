@@ -40,5 +40,3 @@ export const FIREBASE_CONFIG = {
 };
 
 
-// 4. Set to false once you've filled in FIREBASE_CONFIG above.
-export const IS_PLACEHOLDER = false
