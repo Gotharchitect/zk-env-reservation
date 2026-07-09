@@ -39,4 +39,6 @@ export const FIREBASE_CONFIG = {
   appId: "1:1055608568984:web:8287e58f34a8652c3ba4ed"
 };
 
+// 4. Set to false once you've filled in FIREBASE_CONFIG above.
+export const IS_PLACEHOLDER = false;
 
