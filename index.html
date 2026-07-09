@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Environment Reservations</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
   :root {
     /* Colors pulled from the zkipster admin panel: dark navy chrome,
@@ -146,7 +147,7 @@
   .queue-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim); margin-bottom: 8px; }
   .queue-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
   .queue-list li {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
     font-size: 13px;
     padding: 6px 8px;
     border-radius: 6px;
@@ -162,6 +163,36 @@
   }
   .queue-list .qname.open { color: var(--text-dim); font-style: italic; }
   .queue-list .qname.mine { color: var(--accent); font-weight: 600; }
+
+  .tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--panel-header);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+  .tag.audience { color: var(--avatar-blue); border-color: var(--avatar-blue); }
+  .tag.events { color: var(--accent); border-color: var(--accent); }
+  .tag.platform { color: var(--free); border-color: var(--free); }
+  .queue-list li .tags { margin-top: 0; }
+
+  .product-picker {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    font-size: 12px; color: var(--text-dim);
+    padding-top: 4px; border-top: 1px dashed var(--border);
+  }
+  .product-picker-title {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-dim); width: 100%; margin-bottom: 2px;
+  }
+  .product-picker label { display: flex; align-items: center; gap: 5px; cursor: pointer; }
+  .product-picker input[type="checkbox"] { accent-color: var(--accent); cursor: pointer; }
+
 
   .panel-footer { padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
   button {

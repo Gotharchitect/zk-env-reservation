@@ -23,7 +23,7 @@ export const ENVIRONMENTS = ["tstqa", "tstqadev", "tstqadev02"];
 //     remaining" display. This is DISPLAY ONLY — nothing gets
 //     auto-released when it hits zero, it just turns red and shows
 //     "overdue" as a nudge. Change this if 2 hours isn't realistic.
-export const SLOT_DURATION_MINUTES = 60;
+export const SLOT_DURATION_MINUTES = 120;
 
 // 3. Firebase project config.
 //    Create a free project at https://console.firebase.google.com
@@ -31,14 +31,13 @@ export const SLOT_DURATION_MINUTES = 60;
 //       then lock down rules per the README)
 //    -> Project settings > General > Your apps > Web app > copy the config object below
 export const FIREBASE_CONFIG = {
-  apiKey: "AIzaSyBqgMQ9DKbXfzvMchogpn-bWHTErY3iavk",
-  authDomain: "zk-env-reservation.firebaseapp.com",
-  projectId: "zk-env-reservation",
-  storageBucket: "zk-env-reservation.firebasestorage.app",
-  messagingSenderId: "1055608568984",
-  appId: "1:1055608568984:web:8287e58f34a8652c3ba4ed",
-
+  apiKey: "REPLACE_ME",
+  authDomain: "REPLACE_ME.firebaseapp.com",
+  projectId: "REPLACE_ME",
+  storageBucket: "REPLACE_ME.appspot.com",
+  messagingSenderId: "REPLACE_ME",
+  appId: "REPLACE_ME",
 };
 
 // 4. Set to false once you've filled in FIREBASE_CONFIG above.
-export const IS_PLACEHOLDER = false;
+export const IS_PLACEHOLDER = FIREBASE_CONFIG.apiKey === "REPLACE_ME";

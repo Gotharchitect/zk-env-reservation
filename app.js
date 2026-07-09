@@ -72,6 +72,26 @@ function toast(msg) {
   toastTimer = setTimeout(() => el.classList.remove("show"), 3000);
 }
 
+// ── Products ───────────────────────────────────────────────────────
+const PRODUCTS = [
+  { id: "audience", label: "Audience" },
+  { id: "events", label: "Events" },
+  { id: "platform", label: "Platform" },
+];
+
+function getSelectedProducts(envName) {
+  const checked = document.querySelectorAll(`input[name="products-${envName}"]:checked`);
+  return Array.from(checked).map(el => el.value);
+}
+
+function productTagsHTML(products) {
+  if (!products || products.length === 0) return "";
+  return `<div class="tags">${products.map(p => {
+    const label = PRODUCTS.find(x => x.id === p)?.label || p;
+    return `<span class="tag ${p}">${label}</span>`;
+  }).join("")}</div>`;
+}
+
 // ── Firestore document shape per environment ──────────────────────
 // { current: { name, since } | null, queue: [{ name, since }] }
 function envRef(envName) {
@@ -89,6 +109,9 @@ ensureDocsExist();
 async function reserve(envName) {
   const name = me();
   if (!name) return toast("Type your name first");
+  const products = getSelectedProducts(envName);
+  if (products.length === 0) return toast("Pick at least one product first (Audience / Events / Platform)");
+
   await runTransaction(db, async (tx) => {
     const ref = envRef(envName);
     const snap = await tx.get(ref);
@@ -98,9 +121,9 @@ async function reserve(envName) {
     if (data.queue.some(q => q.name === name)) return; // already queued
 
     if (!data.current) {
-      tx.set(ref, { current: { name, since: Date.now() }, queue: data.queue }, { merge: true });
+      tx.set(ref, { current: { name, since: Date.now(), products }, queue: data.queue }, { merge: true });
     } else {
-      tx.set(ref, { current: data.current, queue: [...data.queue, { name, since: Date.now() }] }, { merge: true });
+      tx.set(ref, { current: data.current, queue: [...data.queue, { name, since: Date.now(), products }] }, { merge: true });
     }
   });
 
@@ -131,7 +154,7 @@ async function release(envName) {
     const [next, ...rest] = data.queue;
     nextUser = next ? next.name : null;
     tx.set(ref, {
-      current: next ? { name: next.name, since: Date.now() } : null,
+      current: next ? { name: next.name, since: Date.now(), products: next.products || [] } : null,
       queue: rest,
     }, { merge: true });
   });
@@ -215,6 +238,7 @@ function renderEnv(envName, data) {
     currentInfo.innerHTML = `
       <div class="current-name">${data.current.name}</div>
       <div class="current-time ${remaining.overdue ? "overdue" : ""}">${remaining.text}</div>
+      ${productTagsHTML(data.current.products)}
     `;
     progressFill.style.width = `${remaining.pct}%`;
     progressFill.className = `progress-fill ${remaining.overdue ? "overdue" : remaining.warn ? "warn" : ""}`;
@@ -234,7 +258,7 @@ function renderEnv(envName, data) {
     const li = document.createElement("li");
     if (entry) {
       const mine = entry.name === name ? "mine" : "";
-      li.innerHTML = `<span class="pos">${i + 1}</span><span class="qname ${mine}">${entry.name}</span>`;
+      li.innerHTML = `<span class="pos">${i + 1}</span><span class="qname ${mine}">${entry.name}</span>${productTagsHTML(entry.products)}`;
     } else {
       li.innerHTML = `<span class="pos">${i + 1}</span><span class="qname open">Open slot</span>`;
     }
@@ -269,6 +293,15 @@ function buildCard(envName) {
       <div>
         <div class="queue-title">Up next</div>
         <ol class="queue-list"></ol>
+      </div>
+      <div class="product-picker">
+        <span class="product-picker-title">Testing which product(s)?</span>
+        ${PRODUCTS.map(p => `
+          <label>
+            <input type="checkbox" name="products-${envName}" value="${p.id}">
+            ${p.label}
+          </label>
+        `).join("")}
       </div>
     </div>
     <div class="panel-footer">
