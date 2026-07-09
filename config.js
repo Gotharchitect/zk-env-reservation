@@ -36,7 +36,7 @@ export const FIREBASE_CONFIG = {
   projectId: "zk-env-reservation",
   storageBucket: "zk-env-reservation.firebasestorage.app",
   messagingSenderId: "1055608568984",
-  appId: "1:1055608568984:web:8287e58f34a8652c3ba4ed"
+  appId: "1:1055608568984:web:8287e58f34a8652c3ba4ed",
 };
 
 // 4. Set to false once you've filled in FIREBASE_CONFIG above.
